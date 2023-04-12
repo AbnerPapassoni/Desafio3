@@ -1,4 +1,4 @@
-import Atendimento from "./atendimentos/atendimentosMode.js";
+import Atendimento from "./atendimentos/atendimentosModel.js";
 import Paciente from "./pacientes/pacientesModel.js";
 import Psicologo from "./psicologos/psicologosModel.js";
 
@@ -8,14 +8,14 @@ Paciente.hasMany(Atendimento);
 Atendimento.belongsTo(Psicologo, {
   onDelete: "CASCADE",
   foreignKey: {
-    name: "psicologo_id",
+    name: "id_psicologo",
     allowNull: false,
   },
 });
 Atendimento.belongsTo(Paciente, {
   onDelete: "CASCADE",
   foreignKey: {
-    name: "paciente_id",
+    name: "id_paciente",
     allowNull: false,
   },
 });

@@ -5,7 +5,7 @@ async function findAllPacientes(req, res) {
     const pacientes = await PacienteRepository.findAll();
     res.status(200).json({ message: "Operação bem-sucedida", data: pacientes });
   } catch (error) {
-    console.log("Erro ao recuperar os registros dos pacientes", error);
+    console.error("Erro ao recuperar os registros dos pacientes", error);
     res.status(500).json({ message: "Falha na operação", data: [] });
   }
 }
@@ -16,7 +16,7 @@ async function findPaciente(req, res) {
     const paciente = await PacienteRepository.findByPk(pacienteID);
     res.status(200).json({ message: "Operação bem-sucedida", data: paciente });
   } catch (error) {
-    console.log(
+    console.error(
       `Erro ao recuperar os registros do paciente ${pacienteID}`,
       error
     );
@@ -34,7 +34,7 @@ async function createPaciente(req, res) {
     });
     res.status(201).json({ message: "Operação bem-sucedida", data: createdPaciente });
   } catch (error) {
-    console.log("Erro ao cadastrar paciente", error);
+    console.error("Erro ao cadastrar paciente", error);
     res
       .status(400)
       .json({ message: "Ocorreu um erro ao cadastrar o paciente" });
@@ -60,7 +60,7 @@ async function updatePaciente(req, res) {
     const updatedPaciente = await PacienteRepository.findByPk(pacienteID);
     res.status(200).json({ message: "Operação bem-sucedida", data: updatedPaciente });
   } catch (error) {
-    console.log(
+    console.error(
       `Erro ao atualizar os registros do paciente ${pacienteID}`,
       error
     );
@@ -80,7 +80,7 @@ async function deletePaciente(req, res) {
     });
     res.status(204).json({ message: "Operação bem-sucedida" });
   } catch (error) {
-    console.log(
+    console.error(
       `Erro ao deletar os registros do paciente ${pacienteID}`,
       error
     );

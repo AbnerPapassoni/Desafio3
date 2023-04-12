@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import db from "../../db/db.js";
+import db from "../../configs/database.js";
 import Psicologo from "../psicologos/psicologosModel.js";
 import Paciente from "../pacientes/pacientesModel.js";
 
@@ -10,7 +10,7 @@ const Atendimento = db.define("atendimento", {
     autoIncrement: true,
     allowNull: false,
   },
-  title: {
+  data_atendimento: {
     type: Sequelize.DATE,
     allowNull: false,
   },
@@ -18,14 +18,14 @@ const Atendimento = db.define("atendimento", {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  paciente_id: {
+  id_paciente: {
     type: Sequelize.INTEGER.UNSIGNED,
     references: {
       model: Paciente,
       key: "id",
     },
   },
-  psicologo_id: {
+  id_psicologo: {
     type: Sequelize.INTEGER.UNSIGNED,
     references: {
       model: Psicologo,

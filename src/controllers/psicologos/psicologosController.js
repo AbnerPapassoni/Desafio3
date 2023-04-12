@@ -1,13 +1,18 @@
 import { Psicologo as PsicologoRepository } from "../../models/index.js";
+import bcrypt from "bcrypt";
 
 async function findAllPsicologos(req, res) {
   try {
-    const psicologos = await PsicologoRepository.findAll();
+    const psicologos = await PsicologoRepository.findAll({
+      attributes: {
+        exclude: ["senha"],
+      },
+    });
     res
       .status(200)
       .json({ message: "Operação bem-sucedida", data: psicologos });
   } catch (error) {
-    console.log("Erro ao recuperar os registros dos psicologos", error);
+    console.error("Erro ao recuperar os registros dos psicologos", error);
     res.status(500).json({ message: "Falha na operação", data: [] });
   }
 }
@@ -15,10 +20,14 @@ async function findAllPsicologos(req, res) {
 async function findPsicologo(req, res) {
   const psicologoID = req.params.id;
   try {
-    const psicologo = await PsicologoRepository.findByPk(psicologoID);
+    const psicologo = await PsicologoRepository.findByPk(psicologoID, {
+      attributes: {
+        exclude: ["senha"],
+      },
+    });
     res.status(200).json({ message: "Operação bem-sucedida", data: psicologo });
   } catch (error) {
-    console.log(
+    console.error(
       `Erro ao recuperar os registros do psicologo ${psicologoID}`,
       error
     );
@@ -31,12 +40,12 @@ async function createPsicologo(req, res) {
     const psicologo = await PsicologoRepository.create({
       nome: req.body.nome,
       email: req.body.email,
-      senha: req.body.senha,
+      senha: bcrypt.hashSync(req.body.senha, 10),
       apresentacao: req.body.apresentacao,
     });
     res.status(201).json({ message: "Operação bem-sucedida", data: psicologo });
   } catch (error) {
-    console.log("Erro ao cadastrar psicologo", error);
+    console.error("Erro ao cadastrar psicologo", error);
     res
       .status(400)
       .json({ message: "Ocorreu um erro ao cadastrar o psicologo" });
@@ -50,7 +59,7 @@ async function updatePsicologo(req, res) {
       {
         nome: req.body.nome,
         email: req.body.email,
-        senha: req.body.senha,
+        senha: bcrypt.hashSync(req.body.senha, 10),
         apresentacao: req.body.apresentacao,
       },
       {
@@ -62,7 +71,7 @@ async function updatePsicologo(req, res) {
     const psicologo = await PsicologoRepository.findByPk(psicologoID);
     res.status(200).json({ message: "Operação bem-sucedida", data: psicologo });
   } catch (error) {
-    console.log(
+    console.error(
       `Erro ao atualizar os registros do psicologo ${psicologoID}`,
       error
     );
@@ -82,7 +91,7 @@ async function deletePsicologo(req, res) {
     });
     res.status(204).json({ message: "Operação bem-sucedida" });
   } catch (error) {
-    console.log(
+    console.error(
       `Erro ao deletar os registros do psicologo ${psicologoID}`,
       error
     );

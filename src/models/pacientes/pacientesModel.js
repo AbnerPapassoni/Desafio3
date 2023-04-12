@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import db from "../../db/db.js";
+import db from "../../configs/database.js";
 
 const Paciente = db.define("paciente", {
   id: {
@@ -15,6 +15,7 @@ const Paciente = db.define("paciente", {
   email: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: true,
   },
   data_nascimento: {
     type: Sequelize.DATEONLY,
